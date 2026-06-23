@@ -43,10 +43,100 @@
     $("couple-title").textContent = cfg.coupleNames;
     $("cam-couple").textContent = cfg.coupleNames;
   }
-  if (cfg.weddingDate) $("date-sub").textContent = cfg.weddingDate;
-  $("max-lede").textContent = MAX;
-  $("done-max").textContent = MAX;
   if (guestName) $("guest-name").value = guestName;
+
+  // --- Sprache / Language (Auto-Erkennung + Umschalter) ---
+  const STRINGS = {
+    de: {
+      title: "Diana & Chris, Hochzeitskamera",
+      dateText: cfg.weddingDate || "08.08.2026",
+      welcome: "Schön, dass du da bist. Du hast {N} Aufnahmen, genau wie früher bei der Wegwerfkamera: jeder Druck zählt, nichts lässt sich wiederholen. Was du einfängst, sehen wir alle erst nach der Hochzeit, dann entwickeln wir den Film gemeinsam.",
+      nameLabel: "Dein Name (optional)",
+      namePlaceholder: "z.B. Tante Petra",
+      start: "Kamera starten",
+      hint: "Gleich fragt dein Handy nach der Kamera, ein Tipp auf Erlauben und es kann losgehen.",
+      cameraError: "Kamera-Zugriff nicht möglich. Wir öffnen stattdessen deine Foto-App.",
+      counter: "Noch {n}",
+      framesLabel: "übrig",
+      doneBadge: "FILM VOLL",
+      doneTitle: "Danke!",
+      done: "Das war's, deine {N} Aufnahmen sind im Kasten und bleiben bis nach der Feier ein Geheimnis. Danke, dass du unseren Tag durch deine Augen festgehalten hast, wir freuen uns riesig auf die Enthüllung.",
+      doneCount: "{n} Aufnahmen gespeichert.",
+      uploading: "Lade hoch ...",
+      saved: "Gespeichert ✓",
+      retrying: "Verbindung wackelt, neuer Versuch ...",
+      uploadLater: "Upload später erneut. Bleib einfach hier.",
+      captureFail: "Aufnahme fehlgeschlagen, nochmal probieren.",
+      demoMode: "Demo-Modus: Speicher noch nicht konfiguriert.",
+      flipAria: "Kamera wechseln",
+      shutterAria: "Foto aufnehmen",
+    },
+    en: {
+      title: "Diana & Chris, Wedding Camera",
+      dateText: "August 8, 2026",
+      welcome: "So glad you're here. You have {N} shots, just like an old disposable camera: every press counts, and nothing can be redone. Whatever you capture stays hidden until after the wedding, when we develop the roll together.",
+      nameLabel: "Your name (optional)",
+      namePlaceholder: "e.g. Aunt Mary",
+      start: "Start camera",
+      hint: "In a moment your phone will ask to use the camera, just tap Allow and you're ready to go.",
+      cameraError: "Camera access is not available. We'll open your photo app instead.",
+      counter: "{n} left",
+      framesLabel: "left",
+      doneBadge: "FILM FULL",
+      doneTitle: "Thank you!",
+      done: "That's it, your {N} shots are safely in the can and stay a secret until after the celebration. Thank you for capturing our day through your eyes, we can't wait for the big reveal.",
+      doneCount: "{n} shots saved.",
+      uploading: "Uploading ...",
+      saved: "Saved ✓",
+      retrying: "Connection is shaky, trying again ...",
+      uploadLater: "We'll upload this again shortly, just stay here.",
+      captureFail: "Shot failed, please try again.",
+      demoMode: "Demo mode: storage not configured yet.",
+      flipAria: "Switch camera",
+      shutterAria: "Take photo",
+    },
+  };
+
+  const LANG_KEY = "wedding_cam_lang_v1";
+  let lang = localStorage.getItem(LANG_KEY) ||
+    ((navigator.language || "de").toLowerCase().indexOf("de") === 0 ? "de" : "en");
+  if (!STRINGS[lang]) lang = "de";
+  const t = (k) => (STRINGS[lang] || STRINGS.de)[k];
+  let lastDoneCount = null;
+
+  const setText = (id, txt) => { const el = $(id); if (el) el.textContent = txt; };
+
+  function applyLang() {
+    const s = STRINGS[lang] || STRINGS.de;
+    document.documentElement.lang = lang;
+    document.title = s.title;
+    setText("date-sub", s.dateText);
+    const wl = $("welcome-lede");
+    if (wl) wl.innerHTML = s.welcome.replace("{N}", "<strong>" + MAX + "</strong>");
+    setText("name-label", s.nameLabel);
+    if ($("guest-name")) $("guest-name").placeholder = s.namePlaceholder;
+    setText("btn-start", s.start);
+    setText("welcome-hint", s.hint);
+    setText("frames-left-label", s.framesLabel);
+    if (flipBtn) flipBtn.setAttribute("aria-label", s.flipAria);
+    if (shutter) shutter.setAttribute("aria-label", s.shutterAria);
+    setText("done-badge", s.doneBadge);
+    setText("done-title", s.doneTitle);
+    const dl = $("done-lede");
+    if (dl) dl.innerHTML = s.done.replace("{N}", String(MAX));
+    if (lastDoneCount != null) setText("done-uploaded", s.doneCount.replace("{n}", lastDoneCount));
+    document.querySelectorAll("#lang-toggle button").forEach((b) =>
+      b.classList.toggle("active", b.dataset.lang === lang));
+    updateCounter();
+  }
+
+  document.querySelectorAll("#lang-toggle button").forEach((b) => {
+    b.addEventListener("click", () => {
+      lang = b.dataset.lang;
+      localStorage.setItem(LANG_KEY, lang);
+      applyLang();
+    });
+  });
 
   function showScreen(name) {
     Object.values(screens).forEach((s) => s.classList.remove("visible"));
@@ -55,7 +145,7 @@
 
   function updateCounter() {
     const left = Math.max(0, MAX - shotCount);
-    counterEl.textContent = "Noch " + left;
+    counterEl.textContent = t("counter").replace("{n}", left);
     if (framesNumEl) framesNumEl.textContent = left;
   }
 
@@ -79,8 +169,7 @@
     } catch (e) {
       // Kamera-Stream nicht moeglich -> Datei-Fallback (oeffnet System-Kamera)
       console.warn("getUserMedia failed, falling back to file input", e);
-      errEl.textContent =
-        "Kamera-Zugriff nicht moeglich. Wir oeffnen stattdessen deine Foto-App.";
+      errEl.textContent = t("cameraError");
       errEl.classList.remove("hidden");
       enableFileFallback();
     }
@@ -137,7 +226,7 @@
       uploadPhoto(blob);
     } catch (e) {
       console.error(e);
-      setStatus("Aufnahme fehlgeschlagen, nochmal probieren.", true);
+      setStatus(t("captureFail"), true);
     } finally {
       busy = false;
       if (shotCount >= MAX) {
@@ -205,7 +294,7 @@
 
   async function uploadPhoto(blob, attempt = 1) {
     if (!cfg.supabaseUrl || cfg.supabaseUrl.includes("DEIN-PROJEKT")) {
-      setStatus("Demo-Modus: Speicher noch nicht konfiguriert.", true);
+      setStatus(t("demoMode"), true);
       return;
     }
     const path = buildPath();
@@ -216,7 +305,7 @@
       "/" +
       path;
 
-    setStatus("Lade hoch ...");
+    setStatus(t("uploading"));
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -230,16 +319,16 @@
         body: blob,
       });
       if (!res.ok) throw new Error("HTTP " + res.status + " " + (await res.text()));
-      setStatus("Gespeichert ✓");
+      setStatus(t("saved"));
       setTimeout(() => setStatus(""), 1500);
     } catch (e) {
       console.error("upload failed", e);
       if (attempt < 3) {
         const wait = attempt * 1500;
-        setStatus("Verbindung wackelt, neuer Versuch ...", true);
+        setStatus(t("retrying"), true);
         setTimeout(() => uploadPhoto(blob, attempt + 1), wait);
       } else {
-        setStatus("Upload spaeter erneut. Bleib einfach hier.", true);
+        setStatus(t("uploadLater"), true);
         queueRetry(blob);
       }
     }
@@ -263,7 +352,8 @@
     stopStream();
     showScreen("done");
     const n = Math.min(shotCount, MAX);
-    $("done-uploaded").textContent = `${n} Aufnahmen gespeichert.`;
+    lastDoneCount = n;
+    $("done-uploaded").textContent = t("doneCount").replace("{n}", n);
   }
 
   // ---------- Datei-Fallback ----------
@@ -293,5 +383,5 @@
     }
   });
 
-  updateCounter();
+  applyLang();
 })();

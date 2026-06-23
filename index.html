@@ -13,22 +13,26 @@
 
   <!-- ===== Startscreen ===== -->
   <section id="screen-welcome" class="screen visible">
+    <div class="lang-toggle" id="lang-toggle">
+      <button type="button" data-lang="de">DE</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
     <div class="welcome-inner">
       <div class="film-badge">FILM</div>
       <h1 id="couple-title">Diana &amp; Chris</h1>
       <p id="date-sub">08.08.2026</p>
-      <p class="lede">
-        Schön, dass du da bist. Du hast <strong id="max-lede">15</strong> Aufnahmen,
+      <p class="lede" id="welcome-lede">
+        Schön, dass du da bist. Du hast <strong>15</strong> Aufnahmen,
         genau wie früher bei der Wegwerfkamera: jeder Druck zählt, nichts lässt sich
         wiederholen. Was du einfängst, sehen wir alle erst nach der Hochzeit, dann
         entwickeln wir den Film gemeinsam.
       </p>
-      <label class="name-label" for="guest-name">Dein Name (optional)</label>
+      <label class="name-label" id="name-label" for="guest-name">Dein Name (optional)</label>
       <input id="guest-name" type="text" inputmode="text" autocomplete="name"
              placeholder="z.B. Tante Petra" maxlength="40" />
       <button id="btn-start" class="btn-primary">Kamera starten</button>
       <p id="welcome-error" class="hint error hidden"></p>
-      <p class="hint">Gleich fragt dein Handy nach der Kamera, ein Tipp auf Erlauben und es kann losgehen.</p>
+      <p class="hint" id="welcome-hint">Gleich fragt dein Handy nach der Kamera, ein Tipp auf Erlauben und es kann losgehen.</p>
     </div>
   </section>
 
@@ -47,7 +51,7 @@
       <button id="btn-shutter" class="btn-shutter" aria-label="Foto aufnehmen"></button>
       <div class="thumb-slot">
         <img id="last-thumb" alt="" />
-        <span id="frames-left" class="frames-left"><b id="frames-left-num">15</b><i>übrig</i></span>
+        <span id="frames-left" class="frames-left"><b id="frames-left-num">15</b><i id="frames-left-label">übrig</i></span>
       </div>
     </div>
 
@@ -57,10 +61,10 @@
   <!-- ===== Film voll ===== -->
   <section id="screen-done" class="screen">
     <div class="welcome-inner">
-      <div class="film-badge">FILM VOLL</div>
-      <h1>Danke!</h1>
-      <p class="lede">
-        Das war's, deine <span id="done-max">15</span> Aufnahmen sind im Kasten und
+      <div class="film-badge" id="done-badge">FILM VOLL</div>
+      <h1 id="done-title">Danke!</h1>
+      <p class="lede" id="done-lede">
+        Das war's, deine <span>15</span> Aufnahmen sind im Kasten und
         bleiben bis nach der Feier ein Geheimnis. Danke, dass du unseren Tag durch
         deine Augen festgehalten hast, wir freuen uns riesig auf die Enthüllung.
       </p>
