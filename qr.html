@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR-Code, Hochzeitskamera</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+           margin: 0; padding: 40px 20px; text-align: center; color: #1a1714; background: #f4efe7; }
+    h1 { font-weight: 600; letter-spacing: 1px; }
+    .card { background: #fff; display: inline-block; padding: 32px 32px 24px; border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08); margin-top: 16px; }
+    #qr { display: flex; justify-content: center; }
+    .names { font-size: 22px; font-weight: 600; margin-top: 18px; }
+    .cta { color: #b08a4a; letter-spacing: 2px; font-size: 13px; margin-top: 4px; }
+    input { width: min(420px, 90vw); padding: 12px 14px; font-size: 15px; border: 1px solid #ccc;
+            border-radius: 10px; margin: 8px; }
+    button { padding: 12px 20px; font-size: 15px; border: none; border-radius: 10px;
+             background: #c2a36b; color: #0e0c0a; font-weight: 600; cursor: pointer; }
+    .hint { color: #888; font-size: 13px; margin-top: 20px; }
+    @media print { .noprint { display: none; } body { background: #fff; } }
+  </style>
+</head>
+<body>
+  <div class="noprint">
+    <h1>QR-Code Generator</h1>
+    <p>Link der Kamera-Seite eintragen (Standard: diese Domain + /index.html):</p>
+    <input id="url" type="text" />
+    <button id="gen">Erzeugen</button>
+    <button onclick="window.print()">Drucken</button>
+  </div>
+
+  <div class="card">
+    <div id="qr"></div>
+    <div class="names" id="names">Diana &amp; Chris</div>
+    <div class="cta">SCANNEN &amp; FOTOS MACHEN</div>
+  </div>
+
+  <p class="hint noprint">Tipp: drucke das auf Tischkarten, Welcome-Schild und am Eingang.</p>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    var cfg = window.WEDDING_CONFIG || {};
+    if (cfg.coupleNames) document.getElementById("names").textContent = cfg.coupleNames;
+    var defaultUrl = location.origin + location.pathname.replace(/qr\.html$/, "index.html");
+    var input = document.getElementById("url");
+    input.value = defaultUrl;
+
+    function render() {
+      var box = document.getElementById("qr");
+      box.innerHTML = "";
+      new QRCode(box, {
+        text: input.value,
+        width: 280,
+        height: 280,
+        colorDark: "#0e0c0a",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    }
+    document.getElementById("gen").addEventListener("click", render);
+    render();
+  </script>
+</body>
+</html>

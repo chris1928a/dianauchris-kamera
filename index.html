@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e0c0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Diana & Chris, Hochzeitskamera</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== Startscreen ===== -->
+  <section id="screen-welcome" class="screen visible">
+    <div class="welcome-inner">
+      <div class="film-badge">FILM</div>
+      <h1 id="couple-title">Diana &amp; Chris</h1>
+      <p id="date-sub">08.08.2026</p>
+      <p class="lede">
+        Macht <strong id="max-lede">15</strong> Fotos von unserem Tag.
+        Wie eine Wegwerfkamera. Eure Bilder erscheinen erst nach der Hochzeit.
+      </p>
+      <label class="name-label" for="guest-name">Dein Name (optional)</label>
+      <input id="guest-name" type="text" inputmode="text" autocomplete="name"
+             placeholder="z.B. Tante Petra" maxlength="40" />
+      <button id="btn-start" class="btn-primary">Kamera starten</button>
+      <p id="welcome-error" class="hint error hidden"></p>
+      <p class="hint">Wir brauchen kurz Zugriff auf deine Kamera.</p>
+    </div>
+  </section>
+
+  <!-- ===== Kamera ===== -->
+  <section id="screen-camera" class="screen">
+    <div class="cam-topbar">
+      <span id="cam-couple" class="cam-couple">Diana &amp; Chris</span>
+      <span id="cam-counter" class="cam-counter">0 / 15</span>
+    </div>
+
+    <video id="video" autoplay playsinline muted></video>
+    <div id="flash" class="flash"></div>
+
+    <div class="cam-controls">
+      <button id="btn-flip" class="btn-round small" aria-label="Kamera wechseln">⟲</button>
+      <button id="btn-shutter" class="btn-shutter" aria-label="Foto aufnehmen"></button>
+      <div class="thumb-slot"><img id="last-thumb" alt="" /></div>
+    </div>
+
+    <div id="upload-status" class="upload-status"></div>
+  </section>
+
+  <!-- ===== Film voll ===== -->
+  <section id="screen-done" class="screen">
+    <div class="welcome-inner">
+      <div class="film-badge">FILM VOLL</div>
+      <h1>Danke!</h1>
+      <p class="lede">
+        Du hast alle <span id="done-max">15</span> Aufnahmen gemacht.
+        Eure Bilder erscheinen nach der Hochzeit.
+      </p>
+      <p class="hint" id="done-uploaded"></p>
+    </div>
+  </section>
+
+  <canvas id="canvas" hidden></canvas>
+
+  <!-- Fallback fuer Geraete ohne Kamera-Stream -->
+  <input id="file-fallback" type="file" accept="image/*" capture="environment" hidden />
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

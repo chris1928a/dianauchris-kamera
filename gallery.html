@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie, Diana & Chris</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { overflow: auto; }
+    .gallery-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+    .gallery-head { text-align: center; margin: 28px 0 24px; }
+    .gallery-head h1 { font-size: 26px; }
+    .gate { max-width: 360px; margin: 80px auto; text-align: center; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
+    }
+    .grid a { display: block; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: #1b1813; }
+    .grid img { width: 100%; height: 100%; object-fit: cover; }
+    .bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .bar button {
+      background: #181511; color: var(--paper); border: 1px solid #3a342c;
+      padding: 10px 16px; border-radius: 10px; cursor: pointer; font-size: 14px;
+    }
+    .meta { text-align: center; color: #8c8479; font-size: 13px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="gallery-wrap">
+    <div class="gallery-head">
+      <div class="film-badge">GALERIE</div>
+      <h1 id="g-title">Diana &amp; Chris</h1>
+    </div>
+
+    <div id="gate" class="gate hidden">
+      <input id="gate-pass" type="password" placeholder="Passwort" />
+      <button id="gate-btn" class="btn-primary" style="margin-top:12px;">Oeffnen</button>
+      <p id="gate-err" class="hint error hidden">Falsches Passwort.</p>
+    </div>
+
+    <div id="content" class="hidden">
+      <div class="bar">
+        <button id="btn-refresh">Aktualisieren</button>
+        <span class="meta" id="count"></span>
+      </div>
+      <div id="grid" class="grid"></div>
+      <p id="empty" class="meta hidden">Noch keine Fotos.</p>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="gallery.js"></script>
+</body>
+</html>
