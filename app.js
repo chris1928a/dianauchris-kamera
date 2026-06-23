@@ -50,7 +50,7 @@
     de: {
       title: "Diana & Chris, Hochzeitskamera",
       dateText: cfg.weddingDate || "08.08.2026",
-      welcome: "Schön, dass du da bist. Du hast {N} Aufnahmen, genau wie früher bei der Wegwerfkamera: jeder Druck zählt, nichts lässt sich wiederholen. Was du einfängst, sehen wir alle erst nach der Hochzeit, dann entwickeln wir den Film gemeinsam.",
+      welcome: "Hey, schön dass du dabei bist. Du hast {N} Fotos, um die schönsten Momente unserer Hochzeit festzuhalten. Die Bilder gibt es erst nach dem großen Tag, ganz wie früher bei der Einwegkamera. Wir freuen uns riesig auf das, was du einfängst, danke dir!",
       nameLabel: "Dein Name (optional)",
       namePlaceholder: "z.B. Tante Petra",
       start: "Kamera starten",
@@ -74,7 +74,7 @@
     en: {
       title: "Diana & Chris, Wedding Camera",
       dateText: "August 8, 2026",
-      welcome: "So glad you're here. You have {N} shots, just like an old disposable camera: every press counts, and nothing can be redone. Whatever you capture stays hidden until after the wedding, when we develop the roll together.",
+      welcome: "Hey, so glad you're here with us. You have {N} photos to capture the loveliest moments of our wedding. You'll see the pictures only after the big day, just like an old-school disposable camera. We can't wait to see what you catch, thank you!",
       nameLabel: "Your name (optional)",
       namePlaceholder: "e.g. Aunt Mary",
       start: "Start camera",
