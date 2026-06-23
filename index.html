@@ -18,15 +18,16 @@
       <h1 id="couple-title">Diana &amp; Chris</h1>
       <p id="date-sub">08.08.2026</p>
       <p class="lede">
-        Macht <strong id="max-lede">15</strong> Fotos von unserem Tag.
-        Wie eine Wegwerfkamera. Eure Bilder erscheinen erst nach der Hochzeit.
+        Schön, dass du heute mit uns feierst. Du hast <strong id="max-lede">15</strong>
+        Aufnahmen, ganz wie früher mit der Wegwerfkamera. Halt die Momente fest,
+        die dir gefallen, alle Bilder schauen wir uns erst nach der Hochzeit an.
       </p>
       <label class="name-label" for="guest-name">Dein Name (optional)</label>
       <input id="guest-name" type="text" inputmode="text" autocomplete="name"
              placeholder="z.B. Tante Petra" maxlength="40" />
       <button id="btn-start" class="btn-primary">Kamera starten</button>
       <p id="welcome-error" class="hint error hidden"></p>
-      <p class="hint">Wir brauchen kurz Zugriff auf deine Kamera.</p>
+      <p class="hint">Gleich fragt dich dein Handy nach der Kamera, tipp einfach auf Erlauben.</p>
     </div>
   </section>
 
@@ -34,7 +35,7 @@
   <section id="screen-camera" class="screen">
     <div class="cam-topbar">
       <span id="cam-couple" class="cam-couple">Diana &amp; Chris</span>
-      <span id="cam-counter" class="cam-counter">0 / 15</span>
+      <span id="cam-counter" class="cam-counter">Noch 15</span>
     </div>
 
     <video id="video" autoplay playsinline muted></video>
@@ -43,7 +44,10 @@
     <div class="cam-controls">
       <button id="btn-flip" class="btn-round small" aria-label="Kamera wechseln">⟲</button>
       <button id="btn-shutter" class="btn-shutter" aria-label="Foto aufnehmen"></button>
-      <div class="thumb-slot"><img id="last-thumb" alt="" /></div>
+      <div class="thumb-slot">
+        <img id="last-thumb" alt="" />
+        <span id="frames-left" class="frames-left"><b id="frames-left-num">15</b><i>übrig</i></span>
+      </div>
     </div>
 
     <div id="upload-status" class="upload-status"></div>
@@ -55,8 +59,9 @@
       <div class="film-badge">FILM VOLL</div>
       <h1>Danke!</h1>
       <p class="lede">
-        Du hast alle <span id="done-max">15</span> Aufnahmen gemacht.
-        Eure Bilder erscheinen nach der Hochzeit.
+        Danke, dass du für uns auf den Auslöser gedrückt hast. Deine
+        <span id="done-max">15</span> Aufnahmen sind bei uns. Wir freuen uns riesig,
+        sie nach der Hochzeit mit dir anzuschauen.
       </p>
       <p class="hint" id="done-uploaded"></p>
     </div>

@@ -23,6 +23,7 @@
   const flash = $("flash");
   const counterEl = $("cam-counter");
   const lastThumb = $("last-thumb");
+  const framesNumEl = $("frames-left-num");
   const shutter = $("btn-shutter");
   const flipBtn = $("btn-flip");
   const statusEl = $("upload-status");
@@ -53,7 +54,9 @@
   }
 
   function updateCounter() {
-    counterEl.textContent = shotCount + " / " + MAX;
+    const left = Math.max(0, MAX - shotCount);
+    counterEl.textContent = "Noch " + left;
+    if (framesNumEl) framesNumEl.textContent = left;
   }
 
   // ---------- Start ----------
@@ -177,6 +180,8 @@
 
   function showThumb(blob) {
     if (cfg.delayedReveal) return; // Wegwerfkamera: keine Vorschau
+    const fl = $("frames-left");
+    if (fl) fl.style.display = "none"; // bei sichtbarer Vorschau kein Zaehler-Badge
     const url = URL.createObjectURL(blob);
     lastThumb.src = url;
     lastThumb.classList.add("show");
